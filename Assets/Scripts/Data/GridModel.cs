@@ -2,10 +2,6 @@ using System;
 
 namespace GridPuzzle.Data
 {
-    /// <summary>
-    /// Pure board data.
-    /// Contains NO rendering logic.
-    /// </summary>
     public sealed class GridModel
     {
         private readonly GridCell[,] cells;
@@ -17,15 +13,15 @@ namespace GridPuzzle.Data
         public GridModel(int rows, int columns)
         {
             if (rows <= 0)
-                throw new ArgumentException(nameof(rows));
+                throw new ArgumentOutOfRangeException(nameof(rows));
 
             if (columns <= 0)
-                throw new ArgumentException(nameof(columns));
+                throw new ArgumentOutOfRangeException(nameof(columns));
 
             Rows = rows;
             Columns = columns;
 
-            cells = new GridCell[rows, columns];
+            cells = new GridCell[Rows, Columns];
 
             Initialize();
         }
@@ -45,6 +41,9 @@ namespace GridPuzzle.Data
 
         public GridCell GetCell(int row, int column)
         {
+            if (!IsInside(row, column))
+                throw new IndexOutOfRangeException();
+
             return cells[row, column];
         }
 

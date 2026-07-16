@@ -1,30 +1,40 @@
 namespace GridPuzzle.Data
 {
     /// <summary>
-    /// Represents a single logical cell.
+    /// Represents one logical board cell.
     /// </summary>
     public sealed class GridCell
     {
         public GridPosition Position { get; }
 
-        public int Value { get; private set; }
+        /// <summary>
+        /// The tile currently occupying this cell.
+        /// Null means the cell is empty.
+        /// </summary>
+        public TileData Tile { get; private set; }
 
-        public bool IsEmpty => Value == 0;
+        public bool IsEmpty => Tile == null;
 
         public GridCell(GridPosition position)
         {
             Position = position;
-            Value = 0;
         }
 
-        public void SetValue(int value)
+        public void PlaceTile(TileData tile)
         {
-            Value = value;
+            Tile = tile;
+        }
+
+        public TileData RemoveTile()
+        {
+            TileData removed = Tile;
+            Tile = null;
+            return removed;
         }
 
         public void Clear()
         {
-            Value = 0;
+            Tile = null;
         }
     }
 }

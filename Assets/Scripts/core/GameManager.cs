@@ -1,27 +1,26 @@
 using UnityEngine;
 using GridPuzzle.Data;
 
-namespace GridPuzzle.Core
+public class GameManager : MonoBehaviour
 {
-    /// <summary>
-    /// Temporary GameManager used to verify that
-    /// the board model works correctly.
-    /// </summary>
-    public class GameManager : MonoBehaviour
+    private void Start()
     {
-        private BoardState boardState;
+        BoardState board = new BoardState(4, 4);
 
-        private void Start()
-        {
-            Debug.Log("Creating Board...");
+        GridCell cell = board.Grid.GetCell(0, 0);
 
-            boardState = new BoardState(4, 4);
+        TileData tile = new TileData(2);
 
-            boardState.Grid.GetCell(0, 0).SetValue(2);
-            boardState.Grid.GetCell(0, 1).SetValue(4);
+        cell.PlaceTile(tile);
 
-            Debug.Log($"Cell (0,0): {boardState.Grid.GetCell(0, 0).Value}");
-            Debug.Log($"Cell (0,1): {boardState.Grid.GetCell(0, 1).Value}");
-        }
+        Debug.Log(cell.Tile.Value);
+
+        cell.Tile.DoubleValue();
+
+        Debug.Log(cell.Tile.Value);
+
+        cell.RemoveTile();
+
+        Debug.Log(cell.IsEmpty);
     }
 }

@@ -1,7 +1,7 @@
 namespace GridPuzzle.Data
 {
     /// <summary>
-    /// Complete logical game state.
+    /// Represents the complete logical game state.
     /// </summary>
     public sealed class BoardState
     {
