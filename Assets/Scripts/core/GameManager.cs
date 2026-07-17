@@ -1,24 +1,26 @@
 using UnityEngine;
-using GridPuzzle.Data;
-using GridPuzzle.InputSystem;
 
-public class GameManager : MonoBehaviour
+namespace GridPuzzle.Core
 {
-    [SerializeField]
-    private InputManager inputManager;
-
-    private void OnEnable()
+    /// <summary>
+    /// Controls the overall game lifecycle.
+    /// Does NOT handle gameplay logic.
+    /// </summary>
+    public class GameManager : MonoBehaviour
     {
-        inputManager.OnMoveRequested += MoveRequested;
-    }
+        private void Awake()
+        {
+            Debug.Log("Game Initialized");
+        }
 
-    private void OnDisable()
-    {
-        inputManager.OnMoveRequested -= MoveRequested;
-    }
+        private void Start()
+        {
+            StartNewGame();
+        }
 
-    private void MoveRequested(MoveDirection direction)
-    {
-        Debug.Log($"GameManager received {direction}");
+        private void StartNewGame()
+        {
+            Debug.Log("Starting New Game...");
+        }
     }
 }

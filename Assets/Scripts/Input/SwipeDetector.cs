@@ -1,17 +1,20 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using GridPuzzle.Data;
 
 namespace GridPuzzle.InputSystem
 {
     /// <summary>
-    /// Detects swipe gestures from both mouse and touch.
+    /// Detects swipe gestures using Unity's New Input System.
+    /// Supports both mouse and touchscreen.
     /// </summary>
     public class SwipeDetector : MonoBehaviour
     {
         public event Action<MoveDirection> OnSwipeDetected;
 
         [SerializeField]
+        [Min(10f)]
         private float swipeThreshold = 80f;
 
         private Vector2 startPosition;
@@ -19,53 +22,53 @@ namespace GridPuzzle.InputSystem
 
         private void Update()
         {
-#if UNITY_EDITOR || UNITY_STANDALONE
-
             DetectMouseSwipe();
-
-#else
-
             DetectTouchSwipe();
-
-#endif
         }
+
+        #region Mouse
 
         private void DetectMouseSwipe()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Mouse.current == null)
+                return;
+
+            if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                startPosition = Input.mousePosition;
+                startPosition = Mouse.current.position.ReadValue();
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
-                endPosition = Input.mousePosition;
-
+                endPosition = Mouse.current.position.ReadValue();
                 ProcessSwipe();
             }
         }
 
+        #endregion
+
+        #region Touch
+
         private void DetectTouchSwipe()
         {
-            if (Input.touchCount == 0)
+            if (Touchscreen.current == null)
                 return;
 
-            Touch touch = Input.GetTouch(0);
+            var touch = Touchscreen.current.primaryTouch;
 
-            switch (touch.phase)
+            if (touch.press.wasPressedThisFrame)
             {
-                case TouchPhase.Began:
+                startPosition = touch.position.ReadValue();
+            }
 
-                    startPosition = touch.position;
-                    break;
-
-                case TouchPhase.Ended:
-
-                    endPosition = touch.position;
-                    ProcessSwipe();
-                    break;
+            if (touch.press.wasReleasedThisFrame)
+            {
+                endPosition = touch.position.ReadValue();
+                ProcessSwipe();
             }
         }
+
+        #endregion
 
         private void ProcessSwipe()
         {
@@ -74,20 +77,22 @@ namespace GridPuzzle.InputSystem
             if (delta.magnitude < swipeThreshold)
                 return;
 
+            MoveDirection direction;
+
             if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
             {
-                if (delta.x > 0)
-                    OnSwipeDetected?.Invoke(MoveDirection.Right);
-                else
-                    OnSwipeDetected?.Invoke(MoveDirection.Left);
+                direction = delta.x > 0
+                    ? MoveDirection.Right
+                    : MoveDirection.Left;
             }
             else
             {
-                if (delta.y > 0)
-                    OnSwipeDetected?.Invoke(MoveDirection.Up);
-                else
-                    OnSwipeDetected?.Invoke(MoveDirection.Down);
+                direction = delta.y > 0
+                    ? MoveDirection.Up
+                    : MoveDirection.Down;
             }
+
+            OnSwipeDetected?.Invoke(direction);
         }
     }
 }
