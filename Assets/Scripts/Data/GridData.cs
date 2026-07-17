@@ -27,6 +27,15 @@ namespace GridPuzzle.Data
             return _cells[x, y];
         }
 
+        public int CellCount
+        {
+            get
+            {
+                return Width * Height;
+            }
+        }
+
+
         public void SetValue(int x, int y, int value)
         {
             _cells[x, y] = value;
@@ -35,6 +44,13 @@ namespace GridPuzzle.Data
         public bool IsCellEmpty(int x, int y)
         {
             return _cells[x, y] == 0;
+        }
+        public bool IsInside(int x, int y)
+        {
+            return x >= 0 &&
+                   x < Width &&
+                   y >= 0 &&
+                   y < Height;
         }
 
         public void Clear()
@@ -62,6 +78,20 @@ namespace GridPuzzle.Data
                     _cells[x, y] = state[x, y];
                 }
             }
+        }
+
+        public bool HasEmptyCell()
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    if (_cells[x, y] == 0)
+                        return true;
+                }
+            }
+
+            return false;
         }
     }
 }
