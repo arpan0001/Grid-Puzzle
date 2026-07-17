@@ -1,18 +1,14 @@
 using UnityEngine;
+using GridPuzzle.Core;
 using GridPuzzle.Data;
+using GridPuzzle.InputSystem;
 
-namespace GridPuzzle.InputSystem
+namespace GridPuzzle.Input
 {
-    /// <summary>
-    /// Receives swipe events and forwards them
-    /// to the gameplay systems.
-    /// </summary>
     public class InputManager : MonoBehaviour
     {
         [SerializeField]
         private SwipeDetector swipeDetector;
-
-        public event System.Action<MoveDirection> OnMoveRequested;
 
         private void OnEnable()
         {
@@ -28,7 +24,7 @@ namespace GridPuzzle.InputSystem
         {
             Debug.Log($"Move Requested : {direction}");
 
-            OnMoveRequested?.Invoke(direction);
+            GameEvents.RaiseMoveRequested(direction);
         }
     }
 }
