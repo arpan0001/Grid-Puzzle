@@ -1,26 +1,24 @@
 using UnityEngine;
 using GridPuzzle.Data;
+using GridPuzzle.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    private void Start()
+    [SerializeField]
+    private InputManager inputManager;
+
+    private void OnEnable()
     {
-        BoardState board = new BoardState(4, 4);
+        inputManager.OnMoveRequested += MoveRequested;
+    }
 
-        GridCell cell = board.Grid.GetCell(0, 0);
+    private void OnDisable()
+    {
+        inputManager.OnMoveRequested -= MoveRequested;
+    }
 
-        TileData tile = new TileData(2);
-
-        cell.PlaceTile(tile);
-
-        Debug.Log(cell.Tile.Value);
-
-        cell.Tile.DoubleValue();
-
-        Debug.Log(cell.Tile.Value);
-
-        cell.RemoveTile();
-
-        Debug.Log(cell.IsEmpty);
+    private void MoveRequested(MoveDirection direction)
+    {
+        Debug.Log($"GameManager received {direction}");
     }
 }
