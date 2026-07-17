@@ -1,29 +1,14 @@
-using UnityEngine;
-
-/// <summary>
-/// Global constants used throughout the game.
-/// Centralizing constants avoids magic numbers
-/// and makes future balancing easier.
-/// </summary>
-public static class GameConstants
+namespace GridPuzzle.Utilities
 {
-    /// <summary>
-    /// Default grid width.
-    /// </summary>
-    public const int DefaultGridWidth = 4;
+    public static class GameConstants
+    {
+        public const int GridWidth = 4;
+        public const int GridHeight = 4;
 
-    /// <summary>
-    /// Default grid height.
-    /// </summary>
-    public const int DefaultGridHeight = 4;
+        public const int StartTiles = 2;
 
-    /// <summary>
-    /// Tile spacing in world units.
-    /// </summary>
-    public const float CellSpacing = 1.1f;
+        public const int WinValue = 2048;
 
-    /// <summary>
-    /// Swipe threshold in pixels.
-    /// </summary>
-    public const float SwipeThreshold = 80f;
+        public const int InitialMoves = 100;
+    }
 }
