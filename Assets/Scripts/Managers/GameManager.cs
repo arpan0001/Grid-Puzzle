@@ -20,7 +20,6 @@ namespace GridPuzzle.Managers
 
         private void Awake()
         {
-            Debug.Log("GameManager Awake");
             gameService = new GameService();
             gameService.Initialize();
             uiManager.UpdateHUD(gameService.Score,gameService.RemainingMoves);
