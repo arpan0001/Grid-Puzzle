@@ -1,19 +1,15 @@
-using UnityEngine;
-
-namespace GridPuzzle
+namespace GridPuzzle.Data
 {
-    public class GridPosition : MonoBehaviour
+    public readonly struct GridPosition
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-        
-        }
+        public int X { get; }
 
-        // Update is called once per frame
-        void Update()
+        public int Y { get; }
+
+        public GridPosition(int x, int y)
         {
-        
+            X = x;
+            Y = y;
         }
     }
 }
