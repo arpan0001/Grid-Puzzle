@@ -1,24 +1,36 @@
 using UnityEngine;
+
 using GridPuzzle.Data;
 
 namespace GridPuzzle.View
 {
     public class GridRenderer : MonoBehaviour
     {
-        [SerializeField]
-        private TileView tilePrefab;
+        [Header("References")]
+        [SerializeField] private TileView tilePrefab;
+        [SerializeField] private Transform gridRoot;
 
-        [SerializeField]
-        private Transform gridRoot;
+        [Header("Layout")]
+        [SerializeField] private float cellSize = 120f;
+        [SerializeField] private float spacing = 10f;
 
-        [SerializeField]
-        private float cellSize = 120f;
-
-        private TileView[,] tiles;
+        private TileView[,] tileViews;
 
         public void Initialize(GridData grid)
         {
-            tiles = new TileView[grid.Width, grid.Height];
+            CreateTiles(grid);
+            Render(grid);
+        }
+
+        private void CreateTiles(GridData grid)
+        {
+            tileViews = new TileView[grid.Width, grid.Height];
+
+            float startX =
+                -((grid.Width - 1) * (cellSize + spacing)) * 0.5f;
+
+            float startY =
+                ((grid.Height - 1) * (cellSize + spacing)) * 0.5f;
 
             for (int y = 0; y < grid.Height; y++)
             {
@@ -27,17 +39,20 @@ namespace GridPuzzle.View
                     TileView tile =
                         Instantiate(tilePrefab, gridRoot);
 
-                    tile.transform.localPosition =
-                        new Vector3(
-                            x * cellSize,
-                            -y * cellSize,
-                            0);
+                    RectTransform rect =
+                        tile.GetComponent<RectTransform>();
 
-                    tiles[x, y] = tile;
+                    rect.anchoredPosition =
+                        new Vector2(
+                            startX + x * (cellSize + spacing),
+                            startY - y * (cellSize + spacing));
+
+                    rect.sizeDelta =
+                        new Vector2(cellSize, cellSize);
+
+                    tileViews[x, y] = tile;
                 }
             }
-
-            Render(grid);
         }
 
         public void Render(GridData grid)
@@ -46,8 +61,8 @@ namespace GridPuzzle.View
             {
                 for (int x = 0; x < grid.Width; x++)
                 {
-                    tiles[x, y].SetValue(
-                        grid.GetValue(x, y));
+                    tileViews[x, y]
+                        .SetValue(grid.GetValue(x, y));
                 }
             }
         }
