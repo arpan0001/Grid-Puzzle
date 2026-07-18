@@ -4,6 +4,7 @@ using GridPuzzle.Core;
 using GridPuzzle.Input;
 using GridPuzzle.Utilities;
 using GridPuzzle.View;
+using GridPuzzle.UI;
 
 namespace GridPuzzle.Managers
 {
@@ -12,6 +13,8 @@ namespace GridPuzzle.Managers
         [Header("References")]
         [SerializeField] private InputManager inputManager;
         [SerializeField] private GridRenderer gridRenderer;
+        [SerializeField] private UIManager uiManager;
+
 
         private GameService gameService;
 
