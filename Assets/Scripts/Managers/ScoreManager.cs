@@ -4,6 +4,10 @@ namespace GridPuzzle.Managers
     {
         private int _score;
 
+        public void SetScore(int value)
+        {
+            _score = value;
+        }
 
         public int Score => _score;
 

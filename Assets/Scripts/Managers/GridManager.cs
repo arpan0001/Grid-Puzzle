@@ -13,7 +13,7 @@ namespace GridPuzzle.Managers
 
         public void Initialize()
         {
-            _grid = new GridData();
+            _grid = new GridData( GameConstants.GridWidth,  GameConstants.GridHeight);
         }
 
 

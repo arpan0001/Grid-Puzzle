@@ -8,6 +8,11 @@ namespace GridPuzzle.Managers
         public int RemainingMoves =>
             _remainingMoves;
 
+        public void SetMoves(int value)
+        {
+            _remainingMoves = value;
+        }
+
 
         public void Initialize(int moves)
         {

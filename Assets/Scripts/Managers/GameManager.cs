@@ -82,6 +82,25 @@ namespace GridPuzzle.Managers
                 gameService.RemainingMoves);
         }
 
+        public void UndoMove()
+        {
+            bool restored =
+                gameService.Undo();
+
+
+            if (!restored)
+                return;
+
+
+            gridRenderer.Render(
+                gameService.Grid);
+
+
+            uiManager.UpdateHUD(
+                gameService.Score,
+                gameService.RemainingMoves);
+        }
+
 
         private void UpdateUI()
         {

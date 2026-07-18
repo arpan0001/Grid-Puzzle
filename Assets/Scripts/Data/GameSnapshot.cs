@@ -1,18 +1,18 @@
 namespace GridPuzzle.Data
 {
-    /// <summary>
-    /// Stores the complete logical state
-    /// required to restore a previous move.
-    /// </summary>
     public class GameSnapshot
     {
-        public int[,] Board { get; }
+        public readonly int[,] Board;
 
-        public int Score { get; }
+        public readonly int Score;
 
-        public int RemainingMoves { get; }
+        public readonly int RemainingMoves;
 
-        public GameSnapshot(int[,] board, int score, int remainingMoves)
+
+        public GameSnapshot(
+            int[,] board,
+            int score,
+            int remainingMoves)
         {
             Board = board;
             Score = score;

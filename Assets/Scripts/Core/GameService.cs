@@ -17,6 +17,8 @@ namespace GridPuzzle.Core
 
         public GridData Grid => _gridManager.Grid;
 
+        public bool CanUndo =>_historyManager.CanUndo();
+
         public int Score => _scoreManager.Score;
 
         public int RemainingMoves => _moveManager.RemainingMoves;
@@ -55,36 +57,81 @@ namespace GridPuzzle.Core
         {
             GridData grid = _gridManager.Grid;
 
-            GameSnapshot snapshot = new GameSnapshot(
-                grid.CloneCells(),
-                _scoreManager.Score,
-                _moveManager.RemainingMoves);
 
-            bool moved = _moveProcessor.Move(grid, direction);
+            GameSnapshot snapshot =
+                new GameSnapshot(
+                    grid.CloneCells(),
+                    _scoreManager.Score,
+                    _moveManager.RemainingMoves);
 
-            MoveResult mergeResult =
-                _mergeProcessor.Merge(grid, direction);
-            HasWon = mergeResult.HasWon;
+
+
+            bool moved =
+                _moveProcessor.Move(
+                    grid,
+                    direction);
+
+
+            MoveResult result =
+                _mergeProcessor.Merge(
+                    grid,
+                    direction);
+
 
             bool movedAgain =
-                _moveProcessor.Move(grid, direction);
+                _moveProcessor.Move(
+                    grid,
+                    direction);
 
-            bool boardChanged =
+
+            bool changed =
                 moved ||
-                mergeResult.BoardChanged ||
+                result.BoardChanged ||
                 movedAgain;
 
-            if (!boardChanged)
+
+            if (!changed)
                 return false;
+
 
             _historyManager.Push(snapshot);
 
+
             _scoreManager.AddScore(
-                mergeResult.ScoreGained);
+                result.ScoreGained);
+
 
             _spawnProcessor.Spawn(grid);
 
+
             _moveManager.ConsumeMove();
+
+
+            return true;
+        }
+
+
+        public bool Undo()
+        {
+            if (!_historyManager.CanUndo())
+                return false;
+
+
+            GameSnapshot snapshot =
+                _historyManager.Pop();
+
+
+            _gridManager.Grid.Restore(
+                snapshot.Board);
+
+
+            _scoreManager.SetScore(
+                snapshot.Score);
+
+
+            _moveManager.SetMoves(
+                snapshot.RemainingMoves);
+
 
             return true;
         }
