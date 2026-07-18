@@ -22,7 +22,7 @@ namespace GridPuzzle.Managers
         {
             gameService = new GameService();
             gameService.Initialize();
-            uiManager.UpdateHUD(gameService.Score,gameService.RemainingMoves);
+            uiManager.UpdateHUD(gameService.Score,gameService.RemainingMoves, gameService.Combo);
             gridRenderer.Initialize(gameService.Grid);
         }
 
@@ -51,7 +51,7 @@ namespace GridPuzzle.Managers
 
             uiManager.UpdateHUD(
                 gameService.Score,
-                gameService.RemainingMoves);
+                gameService.RemainingMoves, gameService.Combo);
 
             CheckGameState();
         }
@@ -79,7 +79,7 @@ namespace GridPuzzle.Managers
 
             uiManager.UpdateHUD(
                 gameService.Score,
-                gameService.RemainingMoves);
+                gameService.RemainingMoves, gameService.Combo);
         }
 
         public void UndoMove()
@@ -98,7 +98,7 @@ namespace GridPuzzle.Managers
 
             uiManager.UpdateHUD(
                 gameService.Score,
-                gameService.RemainingMoves);
+                gameService.RemainingMoves, gameService.Combo);
         }
 
 
@@ -106,6 +106,7 @@ namespace GridPuzzle.Managers
         {
             // Phase 9
             // Example:
+            uiManager.UpdateHUD(gameService.Score, gameService.RemainingMoves, gameService.Combo);
             //
             // scoreText.text = gameService.Score.ToString();
             // movesText.text = gameService.RemainingMoves.ToString();

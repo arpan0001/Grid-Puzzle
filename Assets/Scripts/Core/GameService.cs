@@ -14,6 +14,7 @@ namespace GridPuzzle.Core
         private readonly ScoreManager _scoreManager;
         private readonly MoveManager _moveManager;
         private readonly HistoryManager _historyManager;
+        private readonly ComboManager _comboManager;
 
         public GridData Grid => _gridManager.Grid;
 
@@ -23,6 +24,8 @@ namespace GridPuzzle.Core
 
         public int RemainingMoves => _moveManager.RemainingMoves;
 
+        public int Combo => _comboManager.CurrentCombo;
+            
         public GameService()
         {
             _gridManager = new GridManager();
@@ -32,8 +35,9 @@ namespace GridPuzzle.Core
             _scoreManager = new ScoreManager();
             _moveManager = new MoveManager();
             _historyManager = new HistoryManager();
+            _comboManager = new ComboManager();
         }
-
+       
         public void Initialize()
         {
             _gridManager.Initialize();
@@ -59,11 +63,11 @@ namespace GridPuzzle.Core
 
 
             GameSnapshot snapshot =
-                new GameSnapshot(
-                    grid.CloneCells(),
-                    _scoreManager.Score,
-                    _moveManager.RemainingMoves);
-
+               new GameSnapshot(
+              grid.CloneCells(),
+              _scoreManager.Score,
+             _moveManager.RemainingMoves,
+              _comboManager.CurrentCombo);
 
 
             bool moved =
@@ -97,8 +101,20 @@ namespace GridPuzzle.Core
             _historyManager.Push(snapshot);
 
 
-            _scoreManager.AddScore(
-                result.ScoreGained);
+            if (result.ScoreGained > 0)
+            {
+                _comboManager.RegisterMerge();
+
+                int comboScore =
+                    _comboManager.ApplyMultiplier(
+                        result.ScoreGained);
+
+                _scoreManager.AddScore(comboScore);
+            }
+            else
+            {
+                _comboManager.ResetCombo();
+            }
 
 
             _spawnProcessor.Spawn(grid);

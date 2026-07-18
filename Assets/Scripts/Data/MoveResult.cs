@@ -6,5 +6,8 @@ namespace GridPuzzle.Data
         public bool TileMerged;
         public int ScoreGained;
         public bool HasWon;
+        public bool GoldenMerged;
+
+        public int BonusScore;
     }
 }

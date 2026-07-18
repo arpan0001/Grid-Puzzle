@@ -8,6 +8,7 @@ namespace GridPuzzle.UI
         [Header("HUD")]
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private TextMeshProUGUI moveText;
+        [SerializeField] private TMP_Text comboText;
 
         [Header("Panels")]
         [SerializeField] private GameObject winPanel;
@@ -18,10 +19,11 @@ namespace GridPuzzle.UI
             HidePanels();
         }
 
-        public void UpdateHUD(int score, int moves)
+        public void UpdateHUD(int score, int moves, int combo)
         {
             scoreText.text = $"Score : {score}";
             moveText.text = $"Moves : {moves}";
+            comboText.text = $"Combo x{combo}";
         }
 
         public void ShowWin()
