@@ -103,19 +103,20 @@ namespace GridPuzzle.Core
 
             if (result.ScoreGained > 0)
             {
-                _comboManager.RegisterMerge();
-
-                int comboScore =
-                    _comboManager.ApplyMultiplier(
+                int finalScore =
+                    _comboManager.CalculateScore(
                         result.ScoreGained);
 
-                _scoreManager.AddScore(comboScore);
+
+                _scoreManager.AddScore(finalScore);
+
+
+                _comboManager.IncreaseCombo();
             }
             else
             {
                 _comboManager.ResetCombo();
             }
-
 
             _spawnProcessor.Spawn(grid);
 
@@ -151,5 +152,29 @@ namespace GridPuzzle.Core
 
             return true;
         }
+
+        public void Restart()
+        {
+            _historyManager.Clear();
+
+            _scoreManager.Reset();
+
+            
+
+            _comboManager.Reset();
+
+
+            _gridManager.Initialize();
+
+
+            _spawnProcessor.Spawn(
+                _gridManager.Grid);
+
+
+            _spawnProcessor.Spawn(
+                _gridManager.Grid);
+        }
     }
+
+
 }

@@ -6,27 +6,34 @@ namespace GridPuzzle.Managers
 
         public int HighestCombo { get; private set; } = 1;
 
-        public void RegisterMerge()
+
+        public int CalculateScore(int mergeScore)
+        {
+            return mergeScore * CurrentCombo;
+        }
+
+
+        public void IncreaseCombo()
         {
             CurrentCombo++;
 
             if (CurrentCombo > HighestCombo)
+            {
                 HighestCombo = CurrentCombo;
+            }
         }
+
 
         public void ResetCombo()
         {
             CurrentCombo = 1;
         }
 
-        public void SetCombo(int value)
-        {
-            CurrentCombo = value;
-        }
 
-        public int ApplyMultiplier(int score)
+        public void Reset()
         {
-            return score * CurrentCombo;
+            CurrentCombo = 1;
+            HighestCombo = 1;
         }
     }
 }

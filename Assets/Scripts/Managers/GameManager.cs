@@ -71,15 +71,17 @@ namespace GridPuzzle.Managers
 
         public void RestartGame()
         {
-            gameService.Initialize();
+            gameService.Restart();
 
-            gridRenderer.Render(gameService.Grid);
 
-            uiManager.HidePanels();
+            gridRenderer.Render(
+                gameService.Grid);
+
 
             uiManager.UpdateHUD(
                 gameService.Score,
-                gameService.RemainingMoves, gameService.Combo);
+                gameService.RemainingMoves,
+                gameService.Combo);
         }
 
         public void UndoMove()
