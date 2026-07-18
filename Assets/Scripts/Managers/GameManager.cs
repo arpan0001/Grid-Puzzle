@@ -22,7 +22,7 @@ namespace GridPuzzle.Managers
         {
             gameService = new GameService();
             gameService.Initialize();
-
+            uiManager.UpdateHUD(gameService.Score,gameService.RemainingMoves);
             gridRenderer.Initialize(gameService.Grid);
         }
 
@@ -44,15 +44,31 @@ namespace GridPuzzle.Managers
 
         private void OnSwipe(Direction direction)
         {
-            bool boardChanged = gameService.ExecuteMove(direction);
-
-            if (!boardChanged)
+            if (!gameService.ExecuteMove(direction))
                 return;
 
             gridRenderer.Render(gameService.Grid);
 
-            UpdateUI();
+            uiManager.UpdateHUD(
+                gameService.Score,
+                gameService.RemainingMoves);
+
+            CheckGameState();
         }
+        private void CheckGameState()
+        {
+            if (gameService.HasWon)
+            {
+                uiManager.ShowWin();
+                return;
+            }
+
+            if (gameService.IsGameOver)
+            {
+                uiManager.ShowGameOver();
+            }
+        }
+
 
         private void UpdateUI()
         {

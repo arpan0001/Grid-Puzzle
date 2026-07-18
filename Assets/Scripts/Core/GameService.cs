@@ -41,6 +41,15 @@ namespace GridPuzzle.Core
             _spawnProcessor.Spawn(_gridManager.Grid);
             _spawnProcessor.Spawn(_gridManager.Grid);
         }
+        public bool HasWon { get; private set; }
+
+        public bool IsGameOver
+        {
+            get
+            {
+                return _moveManager.RemainingMoves <= 0;
+            }
+        }
 
         public bool ExecuteMove(Direction direction)
         {
@@ -55,6 +64,7 @@ namespace GridPuzzle.Core
 
             MoveResult mergeResult =
                 _mergeProcessor.Merge(grid, direction);
+            HasWon = mergeResult.HasWon;
 
             bool movedAgain =
                 _moveProcessor.Move(grid, direction);
