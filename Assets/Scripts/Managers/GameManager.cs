@@ -2,25 +2,34 @@ using UnityEngine;
 
 using GridPuzzle.Core;
 using GridPuzzle.Utilities;
+using GridPuzzle.View;
 
 namespace GridPuzzle.Managers
 {
     public class GameManager : MonoBehaviour
     {
-        private GameService _gameService;
+        [SerializeField]
+        private GridRenderer gridRenderer;
+
+        private GameService gameService;
 
         private void Awake()
         {
-            _gameService = new GameService();
+            gameService = new GameService();
 
-            _gameService.Initialize();
+            gameService.Initialize();
+
+            gridRenderer.Initialize(
+                gameService.Grid);
         }
 
         public void ExecuteMove(Direction direction)
         {
-            _gameService.ExecuteMove(direction);
+            if (!gameService.ExecuteMove(direction))
+                return;
 
-            // UI update will come later.
+            gridRenderer.Render(
+                gameService.Grid);
         }
     }
 }
