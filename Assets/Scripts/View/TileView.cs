@@ -1,13 +1,18 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using DG.Tweening;
 
 namespace GridPuzzle.View
 {
     public class TileView : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI valueText;
-        [SerializeField] private Image background;
+        [SerializeField]
+        private TextMeshProUGUI valueText;
+
+        [SerializeField]
+        private Image background;
+
 
         public void SetValue(int value)
         {
@@ -21,7 +26,12 @@ namespace GridPuzzle.View
 
             valueText.text = value.ToString();
 
-            // Colors will be improved later.
+
+            transform.localScale = Vector3.zero;
+
+            transform.DOScale(
+                Vector3.one,
+                0.15f);
         }
     }
 }

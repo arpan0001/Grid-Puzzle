@@ -69,6 +69,19 @@ namespace GridPuzzle.Managers
             }
         }
 
+        public void RestartGame()
+        {
+            gameService.Initialize();
+
+            gridRenderer.Render(gameService.Grid);
+
+            uiManager.HidePanels();
+
+            uiManager.UpdateHUD(
+                gameService.Score,
+                gameService.RemainingMoves);
+        }
+
 
         private void UpdateUI()
         {
