@@ -1,40 +1,32 @@
+using GridPuzzle.Utilities;
+
 namespace GridPuzzle.Managers
 {
     public class MoveManager
     {
         private int _remainingMoves;
 
+        public int RemainingMoves => _remainingMoves;
 
-        public int RemainingMoves =>
-            _remainingMoves;
-
-        public void SetMoves(int value)
+        public MoveManager()
         {
-            _remainingMoves = value;
+            Reset();
         }
 
+        public void ConsumeMove()
+        {
+            if (_remainingMoves > 0)
+                _remainingMoves--;
+        }
 
-        public void Initialize(int moves)
+        public void SetMoves(int moves)
         {
             _remainingMoves = moves;
         }
 
-
-        public bool ConsumeMove()
+        public void Reset()
         {
-            if (_remainingMoves <= 0)
-                return false;
-
-
-            _remainingMoves--;
-
-            return true;
-        }
-
-
-        public void Reset(int moves)
-        {
-            _remainingMoves = moves;
+            _remainingMoves = GameConstants.InitialMoves;
         }
     }
 }

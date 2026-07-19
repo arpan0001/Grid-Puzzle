@@ -21,7 +21,7 @@ namespace GridPuzzle.Core
         public bool CanUndo =>_historyManager.CanUndo();
 
         public int Score => _scoreManager.Score;
-
+            
         public int RemainingMoves => _moveManager.RemainingMoves;
 
         public int Combo => _comboManager.CurrentCombo;
@@ -42,7 +42,7 @@ namespace GridPuzzle.Core
         {
             _gridManager.Initialize();
 
-            _moveManager.Initialize(GameConstants.InitialMoves);
+            _moveManager.Reset();
 
             _spawnProcessor.Spawn(_gridManager.Grid);
             _spawnProcessor.Spawn(_gridManager.Grid);
@@ -159,20 +159,14 @@ namespace GridPuzzle.Core
 
             _scoreManager.Reset();
 
-            
+            _moveManager.Reset();
 
             _comboManager.Reset();
 
-
             _gridManager.Initialize();
 
-
-            _spawnProcessor.Spawn(
-                _gridManager.Grid);
-
-
-            _spawnProcessor.Spawn(
-                _gridManager.Grid);
+            _spawnProcessor.Spawn(_gridManager.Grid);
+            _spawnProcessor.Spawn(_gridManager.Grid);
         }
     }
 

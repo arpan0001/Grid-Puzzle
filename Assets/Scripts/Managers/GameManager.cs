@@ -73,10 +73,7 @@ namespace GridPuzzle.Managers
         {
             gameService.Restart();
 
-
-            gridRenderer.Render(
-                gameService.Grid);
-
+            gridRenderer.Render(gameService.Grid);
 
             uiManager.UpdateHUD(
                 gameService.Score,

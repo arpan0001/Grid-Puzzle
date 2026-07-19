@@ -10,5 +10,6 @@ namespace GridPuzzle.Utilities
         public const int WinValue = 2048;
 
         public const int InitialMoves = 100;
+        
     }
 }
