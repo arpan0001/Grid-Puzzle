@@ -117,98 +117,30 @@ GS --> UI
 
 # Functional Code Flow
 
-                                FUNCTIONAL CODE FLOW
+                               ## Functional Code Flow
 
-┌──────────────┐
-│ User Gesture │
-│ (Swipe)      │
-└──────┬───────┘
-       │
-       ▼
-┌──────────────────────┐
-│ InputManager         │
-│ Detect Swipe         │
-│ Validate Direction   │
-└──────┬───────────────┘
-       │
-       ▼
-┌──────────────────────┐
-│ GameManager          │
-│ Receives Swipe Event │
-└──────┬───────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ GameService.ExecuteMove()   │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ Save Current State          │
-│ (HistoryManager)            │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ MoveProcessor               │
-│ Compress Tiles              │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ MergeProcessor              │
-│ Merge Equal Tiles           │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ ScoreManager                │
-│ Update Score                │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ ComboManager                │
-│ Update Combo Multiplier     │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ MoveProcessor               │
-│ Final Compression           │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ SpawnProcessor              │
-│ Spawn New Tile              │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ MoveManager                 │
-│ Consume Remaining Move      │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ Win / Game Over Check       │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ GridRenderer                │
-│ Update Tile Views           │
-└──────┬──────────────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│ UIManager                   │
-│ Update Score                │
-│ Update Moves                │
-│ Update Combo                │
-│ Show Win/Game Over          │
-└─────────────────────────────┘
+```mermaid
+flowchart TD
+
+A[User Gesture<br/>Swipe] --> B[InputManager<br/>Detect & Validate Swipe]
+B --> C[GameManager<br/>Receive Swipe Event]
+C --> D[GameService.ExecuteMove()]
+
+D --> E[HistoryManager<br/>Save Current State]
+E --> F[MoveProcessor<br/>Compress Tiles]
+F --> G[MergeProcessor<br/>Merge Equal Tiles]
+G --> H[ScoreManager<br/>Update Score]
+H --> I[ComboManager<br/>Update Combo]
+I --> J[MoveProcessor<br/>Final Compression]
+J --> K[SpawnProcessor<br/>Spawn New Tile]
+K --> L[MoveManager<br/>Consume Move]
+L --> M{Win / Game Over?}
+
+M -->|No| N[GridRenderer<br/>Update Tile Views]
+M -->|Yes| N
+
+N --> O[UIManager<br/>Refresh Score, Moves,<br/>Combo & Game State]
+```
 
 # Gameplay Rules
 
