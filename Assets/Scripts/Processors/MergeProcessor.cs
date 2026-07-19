@@ -3,10 +3,10 @@ using GridPuzzle.Utilities;
 
 namespace GridPuzzle.Processors
 {
-    /// <summary>
+    
     /// Handles tile merging only.
     /// Assumes the board has already been compressed.
-    /// </summary>
+    
     public class MergeProcessor
     {
         public MoveResult Merge(GridData grid, Direction direction)
@@ -27,13 +27,7 @@ namespace GridPuzzle.Processors
             return result;
         }
 
-        private void MergeLine(
-            GridData grid,
-            int line,
-            int length,
-            bool isRow,
-            bool reverse,
-            ref MoveResult result)
+        private void MergeLine( GridData grid,int line,int length, bool isRow,bool reverse,ref MoveResult result)
         {
             int start = reverse ? length - 1 : 0;
             int end = reverse ? 0 : length - 1;

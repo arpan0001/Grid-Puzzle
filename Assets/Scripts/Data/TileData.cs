@@ -1,9 +1,9 @@
 namespace GridPuzzle.Data
 {
-    /// <summary>
+    
     /// Represents a logical tile.
     /// No rendering information should exist here.
-    /// </summary>
+    
     public class TileData
     {
         public int Value { get; private set; }

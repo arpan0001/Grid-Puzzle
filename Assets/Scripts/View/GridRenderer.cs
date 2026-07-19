@@ -1,9 +1,11 @@
 using UnityEngine;
-
 using GridPuzzle.Data;
 
 namespace GridPuzzle.View
 {
+    /// Responsible for drawing the logical game board.
+    /// It reads data from GridData and updates the tile visuals.
+    /// This class does not contain any gameplay logic.
     public class GridRenderer : MonoBehaviour
     {
         [Header("References")]
@@ -16,53 +18,57 @@ namespace GridPuzzle.View
 
         private TileView[,] tileViews;
 
-        public void Initialize(GridData grid)
+        /// Creates the visual grid and the initial board state.
+       public void Initialize(GridData grid)
         {
             CreateTiles(grid);
             Render(grid);
         }
 
+    
+        // Creates the visual tile objects and positions them in a grid layout.
+        
         private void CreateTiles(GridData grid)
         {
             tileViews = new TileView[grid.Width, grid.Height];
 
-            float startX =
-                -((grid.Width - 1) * (cellSize + spacing)) * 0.5f;
+            float startX = -((grid.Width - 1) * (cellSize + spacing)) * 0.5f;
 
-            float startY =
-                ((grid.Height - 1) * (cellSize + spacing)) * 0.5f;
+            float startY = ((grid.Height - 1) * (cellSize + spacing)) * 0.5f;
 
+            // Create one tile for every cell.
             for (int y = 0; y < grid.Height; y++)
             {
                 for (int x = 0; x < grid.Width; x++)
                 {
-                    TileView tile =
-                        Instantiate(tilePrefab, gridRoot);
+                    // Create a new tile.
+                    TileView tile = Instantiate(tilePrefab, gridRoot);
 
-                    RectTransform rect =
-                        tile.GetComponent<RectTransform>();
+                    RectTransform rect = tile.GetComponent<RectTransform>();
 
+                    // Position the tile inside the grid.
                     rect.anchoredPosition =
-                        new Vector2(
-                            startX + x * (cellSize + spacing),
-                            startY - y * (cellSize + spacing));
+                        new Vector2(startX + x * (cellSize + spacing), startY - y * (cellSize + spacing));
 
-                    rect.sizeDelta =
-                        new Vector2(cellSize, cellSize);
+                    // Set the tile size.
+                    rect.sizeDelta = new Vector2(cellSize, cellSize);
 
+                    // Save the reference for later updates.
                     tileViews[x, y] = tile;
                 }
             }
         }
 
+
+        
+        /// Updates every tile to match
         public void Render(GridData grid)
         {
             for (int y = 0; y < grid.Height; y++)
             {
                 for (int x = 0; x < grid.Width; x++)
                 {
-                    tileViews[x, y]
-                        .SetValue(grid.GetValue(x, y));
+                    tileViews[x, y].SetValue(grid.GetValue(x, y));
                 }
             }
         }

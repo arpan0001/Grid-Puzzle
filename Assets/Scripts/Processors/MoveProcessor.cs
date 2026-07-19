@@ -3,10 +3,9 @@ using GridPuzzle.Utilities;
 
 namespace GridPuzzle.Processors
 {
-    /// <summary>
-    /// Handles tile movement only.
-    /// Does not merge tiles.
-    /// </summary>
+    // Handles tile movement only.
+    // Does not merge tiles.
+   
     public class MoveProcessor
     {
         public bool Move(GridData grid, Direction direction)
@@ -27,15 +26,9 @@ namespace GridPuzzle.Processors
             return moved;
         }
 
-        /// <summary>
         /// Compresses a single row or column.
-        /// </summary>
-        private bool CompressLine(
-            GridData grid,
-            int line,
-            int length,
-            bool isRow,
-            bool reverse)
+        
+        private bool CompressLine(  GridData grid,int line,int length,bool isRow,bool reverse)
         {
             bool moved = false;
 

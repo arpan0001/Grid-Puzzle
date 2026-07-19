@@ -5,10 +5,8 @@ using GridPuzzle.Data;
 
 namespace GridPuzzle.Processors
 {
-    /// <summary>
     /// Responsible only for spawning new tiles.
     /// Reuses memory to avoid allocations.
-    /// </summary>
     public class SpawnProcessor
     {
         private readonly Random _random;
@@ -33,17 +31,13 @@ namespace GridPuzzle.Processors
                 return false;
 
 
-            GridPosition position =
-                _emptyCells[_random.Next(_emptyCells.Count)];
+            GridPosition position = _emptyCells[_random.Next(_emptyCells.Count)];
 
 
             int value = GenerateTileValue();
 
 
-            grid.SetValue(
-                position.X,
-                position.Y,
-                value);
+            grid.SetValue( position.X, position.Y,value);
 
 
             return true;
@@ -61,8 +55,7 @@ namespace GridPuzzle.Processors
                 {
                     if (grid.IsCellEmpty(x, y))
                     {
-                        _emptyCells.Add(
-                            new GridPosition(x, y));
+                        _emptyCells.Add(new GridPosition(x, y));
                     }
                 }
             }
@@ -71,9 +64,7 @@ namespace GridPuzzle.Processors
 
         private int GenerateTileValue()
         {
-            return _random.NextDouble() < 0.9
-                ? 2
-                : 4;
+            return _random.NextDouble() < 0.9 ? 2 : 4;
         }
     }
 }
