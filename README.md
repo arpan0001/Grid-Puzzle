@@ -54,87 +54,66 @@ Optimized update pipeline
 
 # System Architecture
 
-                    SYSTEM ARCHITECTURE
+                   ## System Architecture Map
 
-┌────────────────────────────────────────────────────────────────────────────┐
-│                            PRESENTATION LAYER                              │
-├────────────────────────────────────────────────────────────────────────────┤
+```mermaid
+flowchart TD
 
-        Player
-           │
-           ▼
-   ┌─────────────────┐
-   │  InputManager   │
-   │ (Swipe Input)   │
-   └────────┬────────┘
-            │
-            ▼
-   ┌─────────────────┐
-   │  GameManager    │
-   │ Unity Entry     │
-   └────────┬────────┘
-            │
-            │ Calls
-            ▼
+subgraph Presentation["Presentation Layer"]
+    Player[Player]
+    Input[InputManager<br/>Swipe Detection]
+    GM[GameManager<br/>Unity Entry Point]
 
-┌────────────────────────────────────────────────────────────────────────────┐
-│                           BUSINESS LOGIC LAYER                             │
-├────────────────────────────────────────────────────────────────────────────┤
+    Player --> Input
+    Input --> GM
+end
 
-                 ┌──────────────────────────┐
-                 │      GameService         │
-                 │   Gameplay Coordinator   │
-                 └─────────────┬────────────┘
-                               │
-       ┌───────────────┬────────┼───────────┬───────────────┐
-       ▼               ▼        ▼           ▼               ▼
+subgraph Logic["Business Logic Layer"]
+    GS[GameService<br/>Gameplay Coordinator]
 
-┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌──────────────┐
-│MoveProcessor│ │MergeProcesso│ │SpawnProcessor │ComboManager │  HistoryManager│
-└──────┬──────┘ └──────┬──────┘ └──────┬──────┘ └──────┬──────┘ └──────┬───────┘
-       │               │               │               │               │
-       └───────────────┴───────────────┴───────────────┴───────────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │     GridManager     │
-                    └──────────┬──────────┘
-                               │
-                               ▼
+    MP[MoveProcessor]
+    MEP[MergeProcessor]
+    SP[SpawnProcessor]
 
-┌────────────────────────────────────────────────────────────────────────────┐
-│                               DATA LAYER                                   │
-├────────────────────────────────────────────────────────────────────────────┤
+    GridMgr[GridManager]
+    ScoreMgr[ScoreManager]
+    MoveMgr[MoveManager]
+    ComboMgr[ComboManager]
+    HistoryMgr[HistoryManager]
 
-                    ┌─────────────────────┐
-                    │      GridData       │
-                    │ Logical Board State │
-                    └─────────────────────┘
+    GS --> MP
+    GS --> MEP
+    GS --> SP
 
-              (Contains NO Unity API references)
+    GS --> GridMgr
+    GS --> ScoreMgr
+    GS --> MoveMgr
+    GS --> ComboMgr
+    GS --> HistoryMgr
+end
 
-┌────────────────────────────────────────────────────────────────────────────┐
-│                           RENDERING LAYER                                  │
-├────────────────────────────────────────────────────────────────────────────┤
+subgraph Data["Data Layer"]
+    Grid[GridData<br/>Logical Board]
+end
 
-                    ┌─────────────────────┐
-                    │    GridRenderer     │
-                    │ Reads GridData Only │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │      TileView       │
-                    │ Tile Visualization  │
-                    └─────────────────────┘
+subgraph Rendering["Rendering Layer"]
+    Renderer[GridRenderer]
+    Tile[TileView]
+    UI[UIManager]
+end
 
-                               │
-                               ▼
+GM --> GS
 
-                    ┌─────────────────────┐
-                    │      UIManager       │
-                    │ Score • Moves • Combo│
-                    └─────────────────────┘
+MP --> Grid
+MEP --> Grid
+SP --> Grid
+GridMgr --> Grid
+HistoryMgr --> Grid
+
+Grid --> Renderer
+Renderer --> Tile
+GS --> UI
+```
 
 # Functional Code Flow
 
