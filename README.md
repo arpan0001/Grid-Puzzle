@@ -143,7 +143,7 @@ Equal-value tiles merge.
 Every successful move spawns one new tile.
 Consecutive merge turns increase the combo multiplier.
 Moves are limited to 100.
-Reach the target tile (e.g., 2048) or achieve the highest score before running out of moves.
+Reach the target tile (2048) or achieve the highest score before running out of moves.
 
 # Performance & Optimization
 
