@@ -120,26 +120,19 @@ GS --> UI
                                ## Functional Code Flow
 
 ```mermaid
-flowchart TD
+flowchart LR
 
-A[User Gesture<br/>Swipe] --> B[InputManager<br/>Detect & Validate Swipe]
-B --> C[GameManager<br/>Receive Swipe Event]
-C --> D[GameService.ExecuteMove()]
-
-D --> E[HistoryManager<br/>Save Current State]
-E --> F[MoveProcessor<br/>Compress Tiles]
-F --> G[MergeProcessor<br/>Merge Equal Tiles]
-G --> H[ScoreManager<br/>Update Score]
-H --> I[ComboManager<br/>Update Combo]
-I --> J[MoveProcessor<br/>Final Compression]
-J --> K[SpawnProcessor<br/>Spawn New Tile]
-K --> L[MoveManager<br/>Consume Move]
-L --> M{Win / Game Over?}
-
-M -->|No| N[GridRenderer<br/>Update Tile Views]
-M -->|Yes| N
-
-N --> O[UIManager<br/>Refresh Score, Moves,<br/>Combo & Game State]
+A[Player Swipe]
+--> B[InputManager]
+--> C[GameManager]
+--> D[GameService]
+--> E[Move Processor]
+--> F[Merge Processor]
+--> G[Update GridData]
+--> H[Spawn Tile]
+--> I[Update Score & Combo]
+--> J[GridRenderer]
+--> K[UIManager]
 ```
 
 # Gameplay Rules
